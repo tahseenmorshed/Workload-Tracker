@@ -1,0 +1,105 @@
+.suspend-units-location
+{
+    position: fixed;
+    bottom: 827px;
+    right: 395px;
+    z-index: 1000;
+}
+
+.delete-units-location
+{
+    position: fixed;
+    bottom: 827px;
+    right: 235px;
+    z-index: 1000;
+}
+
+.add-units-locatio
+{
+    position: fixed;
+    bottom: 827px;
+    right: 100px;
+    z-index: 1000;
+}
+
+
+  .button-container
+  {
+    display: flex;
+    align-items: flex-start;
+    position: absolute;
+    top: 80px;
+    left: 300px;
+  }
+
+  .button-spacing
+  {
+    margin-right: 10px;
+  }
+
+  .pencil
+  {
+    color: white;
+  }
+
+  .icon
+  {
+    height: 10px;
+    width: 10px;
+  }
+
+  .centre-text
+  {
+    text-align: center;
+  }
+
+  .add-button
+  {
+    color: white;
+  }
+
+  .sticky-header thead th {
+      position: sticky;
+      top: 0;
+      background-color: white;
+      z-index: 10;
+      font-size: 18;
+    }
+
+    .suspended {
+      background-color: orange;
+    }
+
+    .card {
+      background-color: white;
+      width: 1450px;
+      margin-left: -85px;
+      margin-right: auto;
+      margin-top: 75px;
+      display: flex;
+    }
+
+    .card-header
+    {
+      background-color: #2c75e2;
+      width: 1450px;
+      margin-bottom: 0;
+    }
+
+    .card-title
+    {
+      color: white;
+      font-weight: bold
+    }
+
+    .card-body 
+    {
+      overflow: scroll;
+      height: 730px;
+      padding-top: 0rem;
+    }
+
+    td
+    {
+      text-align: center;
+    }

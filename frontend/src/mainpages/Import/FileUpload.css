@@ -1,0 +1,16 @@
+.upload-segment {
+    text-align: center;
+    right: -380px; 
+    width: 700px;
+    bottom: -50px
+  }
+  
+  .upload-segment p {
+    margin-top: 10px;
+  }
+
+
+.file-names-list {
+  list-style-type: none;
+  padding-left: 0;
+}

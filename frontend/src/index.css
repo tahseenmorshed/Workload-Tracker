@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500&display=swap");
+
+html,
+body,
+#root,
+.app,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.app {
+  display: flex;
+  position: relative;
+}
+
+.content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y:auto;
+  margin-left: 260px;
+}
+
+.sidebar {
+  position: fixed;
+  height: 100%;
+  z-index: 1;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

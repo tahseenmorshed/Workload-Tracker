@@ -1,0 +1,438 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 HelveticaNeue-Italic;\f2\fnil\fcharset0 HelveticaNeue-Bold;
+}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab560
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\fs26 \cf0 drop database workload_tracker_db; 
+\f1\i \
+\
+-- Create database if it doesnt exist
+\f0\i0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f2\b \cf0 CREATE
+\f0\b0  
+\f2\b DATABASE
+\f0\b0  
+\f2\b IF
+\f0\b0  NOT EXISTS workload_tracker_db;\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\i \cf0 -- Use newly created database
+\f0\i0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f2\b \cf0 USE
+\f0\b0  workload_tracker_db;\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\i \cf0 -- Create tables
+\f0\i0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f2\b \cf0 CREATE TABLE users (\
+    name VARCHAR(50),\
+    email VARCHAR(50),\
+    staff_id VARCHAR(50),\
+    password VARCHAR(50),\
+    position_title VARCHAR(50),\
+    employment_status VARCHAR(50),\
+    occupancy_type VARCHAR(50),\
+    work_function VARCHAR(50),\
+    occupancy_start DATE,\
+    occupancy_end DATE,\
+    position_fte FLOAT,\
+    workload_hours INT,\
+    planned_leave INT,\
+    booked_leave INT,\
+    discipline VARCHAR(50),\
+    PRIMARY KEY (staff_id),\
+    INDEX idx_users_name (name) -- Added index on the 'name' column\
+);\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f0\b0 \cf0 \
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f2\b \cf0 CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  units (\
+    unit_code 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    unit_name 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    teaching_weeks 
+\f2\b INT
+\f0\b0 , \
+    credit_points 
+\f2\b INT
+\f0\b0 ,\
+    coordinator 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    workload_parameter 
+\f2\b VARCHAR
+\f0\b0 (50),  \
+    study_period 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    planned_head_count 
+\f2\b INT
+\f0\b0 , \
+    location 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    project_unit 
+\f2\b BIT
+\f0\b0 , \
+    students_per_project 
+\f2\b INT
+\f0\b0 ,\
+    number_of_projects 
+\f2\b INT
+\f0\b0 ,\
+    project_parameter 
+\f2\b FLOAT
+\f0\b0 ,\
+    
+\f2\b PRIMARY
+\f0\b0  
+\f2\b KEY
+\f0\b0  (unit_code, study_period),\
+    
+\f2\b FOREIGN
+\f0\b0  
+\f2\b KEY
+\f0\b0  (coordinator) 
+\f2\b REFERENCES
+\f0\b0  users (
+\f2\b name
+\f0\b0 )\
+);\
+\
+
+\f2\b CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  teaching_delivery (\
+    unit_code 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    study_period 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    
+\f2\b type
+\f0\b0  
+\f2\b VARCHAR
+\f0\b0 (50),\
+\
+    tuition_pattern_frequency 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    tuition_pattern_hours 
+\f2\b INT
+\f0\b0 , \
+    allocated_hours 
+\f2\b INT
+\f0\b0 ,\
+    total_count 
+\f2\b INT
+\f0\b0 ,\
+    duplicate_classes 
+\f2\b INT
+\f0\b0 ,\
+    num_staff 
+\f2\b INT
+\f0\b0 , \
+    hours_per_staff 
+\f2\b INT
+\f0\b0 ,\
+\
+    
+\f2\b PRIMARY
+\f0\b0  
+\f2\b KEY
+\f0\b0  (unit_code, study_period, 
+\f2\b type
+\f0\b0 ),\
+    
+\f2\b INDEX
+\f0\b0  idx_teaching_delivery_type (
+\f2\b type
+\f0\b0 ),\
+    
+\f2\b FOREIGN
+\f0\b0  
+\f2\b KEY
+\f0\b0  (unit_code, study_period) 
+\f2\b REFERENCES
+\f0\b0  units(unit_code, study_period)\
+);\
+\
+
+\f2\b CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  td_allocations (\
+    staff_id 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    unit_code 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    study_period 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    
+\f2\b type
+\f0\b0  
+\f2\b VARCHAR
+\f0\b0 (50),\
+\
+    allocated_hours 
+\f2\b INT
+\f0\b0 , \
+\
+    staff_name 
+\f2\b VARCHAR
+\f0\b0 (50)\
+);\
+\
+
+\f2\b CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  teaching_related_duty (\
+    unit_code 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    study_period 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    unit_coordination 
+\f2\b INT
+\f0\b0 ,\
+    preparation 
+\f2\b INT
+\f0\b0 ,\
+    consultation 
+\f2\b INT
+\f0\b0 , \
+    marking 
+\f2\b INT
+\f0\b0 , \
+    moderation 
+\f2\b INT
+\f0\b0 , \
+    co_assesor_duties 
+\f2\b INT
+\f0\b0 , \
+    other 
+\f2\b INT
+\f0\b0 ,\
+\
+    
+\f2\b PRIMARY
+\f0\b0  
+\f2\b KEY
+\f0\b0  (unit_code, study_period),\
+    
+\f2\b FOREIGN
+\f0\b0  
+\f2\b KEY
+\f0\b0  (unit_code, study_period) 
+\f2\b REFERENCES
+\f0\b0  units(unit_code, study_period)\
+);\
+\
+
+\f2\b CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  trd_allocations (\
+    staff_id 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    unit_code 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    study_period 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    \
+    unit_coordination 
+\f2\b INT
+\f0\b0 ,\
+    preparation 
+\f2\b INT
+\f0\b0 ,\
+    consultation 
+\f2\b INT
+\f0\b0 ,\
+    marking 
+\f2\b INT
+\f0\b0 ,\
+    moderation 
+\f2\b INT
+\f0\b0 ,\
+    co_assessor_duties 
+\f2\b INT
+\f0\b0 ,\
+    other 
+\f2\b INT
+\f0\b0 ,\
+     \
+    staff_name 
+\f2\b VARCHAR
+\f0\b0 (50)\
+);\
+\
+
+\f2\b CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  teaching_staff (\
+    staff_id 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    unit_code 
+\f2\b VARCHAR
+\f0\b0 (50),\
+    study_period 
+\f2\b VARCHAR
+\f0\b0 (50),\
+\
+    staff_name 
+\f2\b VARCHAR
+\f0\b0 (50),\
+\
+    
+\f2\b PRIMARY
+\f0\b0  
+\f2\b KEY
+\f0\b0  (staff_id, unit_code, study_period)\
+);\
+\
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f1\i \cf0 -- workload tables still not fixed
+\f0\i0 \
+\pard\pardeftab560\slleading20\partightenfactor0
+
+\f2\b \cf0 CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  workload_type (\
+    type_id 
+\f2\b INT
+\f0\b0  AUTO_INCREMENT, \
+    
+\f2\b type
+\f0\b0  
+\f2\b VARCHAR
+\f0\b0 (50), \
+    
+\f2\b PRIMARY
+\f0\b0  
+\f2\b KEY
+\f0\b0  (type_id)\
+);\
+\
+
+\f2\b CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  workload_component (\
+    workload_id 
+\f2\b INT
+\f0\b0  AUTO_INCREMENT, \
+    
+\f2\b type
+\f0\b0  
+\f2\b INT
+\f0\b0 , \
+    
+\f2\b name
+\f0\b0  
+\f2\b VARCHAR
+\f0\b0 (50), \
+    comments 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    allocated_hours 
+\f2\b INT
+\f0\b0 , \
+    total_supervision 
+\f2\b INT
+\f0\b0 , \
+    chair_of_thesis 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    hrd_supervision_allocation 
+\f2\b INT
+\f0\b0 , \
+    workload_per_project 
+\f2\b INT
+\f0\b0 , \
+    supervision_hours 
+\f2\b INT
+\f0\b0 , \
+    
+\f2\b PRIMARY
+\f0\b0  
+\f2\b KEY
+\f0\b0  (workload_id), \
+    
+\f2\b FOREIGN
+\f0\b0  
+\f2\b KEY
+\f0\b0  (
+\f2\b type
+\f0\b0 ) 
+\f2\b REFERENCES
+\f0\b0  workload_type (type_id)\
+);\
+\
+
+\f2\b CREATE
+\f0\b0  
+\f2\b TABLE
+\f0\b0  user_workload (\
+    workload_id 
+\f2\b INT
+\f0\b0 , \
+    staff_id 
+\f2\b VARCHAR
+\f0\b0 (50), \
+    
+\f2\b PRIMARY
+\f0\b0  
+\f2\b KEY
+\f0\b0  (workload_id, staff_id), \
+    
+\f2\b FOREIGN
+\f0\b0  
+\f2\b KEY
+\f0\b0  (workload_id) 
+\f2\b REFERENCES
+\f0\b0  workload_component (workload_id), \
+    
+\f2\b FOREIGN
+\f0\b0  
+\f2\b KEY
+\f0\b0  (staff_id) 
+\f2\b REFERENCES
+\f0\b0  users (staff_id)\
+);\
+}

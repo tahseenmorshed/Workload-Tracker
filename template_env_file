@@ -1,0 +1,10 @@
+MYSQL_DATABASES=
+
+# Make this something secure
+MYSQL_ROOT_PASSWORD= 
+MYSQL_HOST=
+MYSQL_PORT=
+MYSQL_USER=
+
+# Make this something secure
+MYSQL_PASSWORD=

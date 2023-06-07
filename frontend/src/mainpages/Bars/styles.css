@@ -1,0 +1,6 @@
+/* Sidebar styles */
+.sidebar {
+    padding: 1rem;
+    overflow-y: auto;
+    z-index: 1;
+  }
